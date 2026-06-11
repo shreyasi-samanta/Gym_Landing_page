@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FORGE GYM — Forge Your Limits</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --Green: rgb(61, 230, 61);
+      --Green-dark: #0b633a;
+      --black: #0A0A0A;
+      --dark: #111111;
+      --dark2: #1A1A1A;
+      --gray: #2A2A2A;
+      --mid: #555;
+      --light: #AAAAAA;
+      --white: #F5F5F5;
+      --font-head: 'Bebas Neue', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    .nav-logo span {
+      color: var(--Green);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav ul a {
+      text-decoration: none;
+      color: var(--light);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: 0.3s;
+    }
+
+    nav ul a:hover {
+      color: var(--white);
+    }
+
+    .nav-cta {
+      background: var(--Green);
+      color: white;
+      padding: 0.8rem 1.6rem;
+      text-decoration: none;
+      font-weight: 700;
+      text-transform: uppercase;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: 0.3s;
+    }
+
+    .nav-cta:hover {
+      background: #19d21f;
+      transform: scale(1.05);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 4rem 5rem;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(232,32,26,0.2), transparent 40%),
+        linear-gradient(to right, rgba(0,0,0,0.95), rgba(0,0,0,0.6));
+    }
+
+    .hero-content {
+      max-width: 700px;
+      z-index: 2;
+    }
+
+    .hero-label {
+      color: var(--Green);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(5rem, 12vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 3px;
+    }
+
+    .hero h1 em {
+      color: var(--Green);
+      font-style: normal;
+      display: block;
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      color: var(--light);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: 500px;
+    }
+
+    .hero-actions {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--Green);
+      color: white;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 700;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(232,32,26,0.4);
+    }
+
+    .btn-ghost {
+      border-bottom: 2px solid var(--gray);
+      padding: 1rem 0;
+      text-decoration: none;
+      color: white;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--Green);
+    }
+
+    .hero-stats {
+      margin-top: 4rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-val {
+      font-family: var(--font-head);
+      font-size: 2.5rem;
+    }
+
+    .stat-val span {
+      color: var(--Green);
+    }
+
+    .stat-label {
+      color: var(--mid);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+    }
+
+    .marquee-wrap {
+      background: var(--Green);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 1rem 0;
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+    }
+
+    .marquee-item {
+      display: inline-block;
+      margin-right: 3rem;
+      font-family: var(--font-head);
+      letter-spacing: 3px;
+      font-size: 1.2rem;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    section {
+      padding: 6rem 4rem;
+    }
+
+    .section-label {
+      color: var(--Green);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-heading {
+      font-family: var(--font-head);
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1;
+    }
+
+    .section-heading em {
+      color: var(--Green);
+      font-style: normal;
+    }
+
+    .programs-grid,
+    .pricing-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .program-card,
+    .price-card {
+      background: var(--dark2);
+      border: 1px solid var(--gray);
+      padding: 2rem;
+      transition: 0.3s;
+    }
+
+    .program-card:hover,
+    .price-card:hover {
+      border-color: var(--Green);
+      transform: translateY(-5px);
+    }
+
+    .program-num {
+      font-family: var(--font-head);
+      font-size: 4rem;
+      color: rgba(255,255,255,0.08);
+      margin-bottom: 1rem;
+    }
+
+    .program-name {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .program-desc {
+      color: var(--light);
+      line-height: 1.8;
+    }
+
+    .program-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      color: var(--Green);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .about {
+      background: var(--dark);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      min-height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(232,32,26,0.2), transparent 70%);
+      border: 1px solid var(--gray);
+    }
+
+    .about-badge {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 1px solid rgba(232,32,26,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-badge-num {
+      font-family: var(--font-head);
+      font-size: 5rem;
+      color: var(--Green);
+    }
+
+    .about-content p {
+      color: var(--light);
+      line-height: 1.9;
+      margin: 1.5rem 0;
+    }
+
+    .about-perks {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .perk-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--Green);
+      border-radius: 50%;
+    }
+
+    .price-card.featured {
+      background: var(--Green);
+      transform: translateY(-10px);
+    }
+
+    .price-tier {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+      color: var(--light);
+    }
+
+    .price-amount {
+      font-family: var(--font-head);
+      font-size: 4rem;
+    }
+
+    .price-features {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      color: var(--light);
+    }
+
+    .btn-plan {
+      display: block;
+      margin-top: 2rem;
+      text-align: center;
+      padding: 1rem;
+      border: 1px solid white;
+      text-decoration: none;
+      color: white;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .btn-plan:hover {
+      background: white;
+      color: black;
+    }
+
+    .cta-banner {
+      margin: 0 4rem 6rem;
+      background: var(--dark2);
+      border-left: 4px solid var(--Green);
+      padding: 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .cta-banner h2 {
+      font-family: var(--font-head);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .cta-banner p {
+      color: var(--light);
+      margin-top: 1rem;
+    }
+
+    footer {
+      background: var(--dark);
+      padding: 4rem;
+      border-top: 1px solid var(--gray);
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-head);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span {
+      color: var(--Green);
+    }
+
+    .footer-desc {
+      color: var(--mid);
+      line-height: 1.8;
+    }
+
+    .footer-col h4 {
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--light);
+      font-size: 0.8rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-col ul a {
+      color: var(--mid);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .footer-col ul a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--gray);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--mid);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 1rem 2rem;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .hero,
+      section,
+      footer {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+
+      .about-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-banner {
+        margin: 0 2rem 4rem;
+        padding: 2rem;
+      }
+    }
+  
+
+    .hero-image {
+      position: absolute;
+      right: 4rem;
+      bottom: 0;
+      width: 42%;
+      max-width: 650px;
+      opacity: 0.9;
+      animation: floatImage 4s ease-in-out infinite;
+    }
+
+    .hero-image img {
+      width: 100%;
+      object-fit: cover;
+      filter: drop-shadow(0 20px 40px rgba(232,32,26,0.25));
+      transition: transform 0.5s ease;
+    }
+
+    .hero-image img:hover {
+      transform: scale(1.05) rotate(-1deg);
+    }
+
+    .gallery {
+      padding: 6rem 4rem;
+      background: var(--dark);
+    }
+
+    .gallery-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gallery-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--gray);
+      min-height: 360px;
+      cursor: pointer;
+      background: #111;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s var(--ease), filter 0.7s ease;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.12);
+      filter: brightness(0.55);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 0.5s ease;
+    }
+
+    .gallery-card:hover .gallery-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .gallery-overlay h3 {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .gallery-overlay p {
+      color: var(--light);
+      line-height: 1.7;
+    }
+
+    @keyframes floatImage {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-image {
+        display: none;
+      }
+
+      .gallery {
+        padding: 5rem 2rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">FORGE<span>.</span></a>
+
+    <ul>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <a href="#pricing" class="nav-cta">Join Now</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-label">Est. 2012 — Downtown District</div>
+
+      <h1>
+        FORGE
+        <em>YOUR LIMITS</em>
+      </h1>
+
+      <p class="hero-sub">
+        Built for those who refuse to be average. World-class equipment,
+        elite coaching, and a community that pushes you further than you thought possible.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">Start Training Today</a>
+        <a href="#programs" class="btn-ghost">Explore Programs</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-val">12K<span>+</span></div>
+          <div class="stat-label">Active Members</div>
+        </div>
+
+        <div>
+          <div class="stat-val">48<span>+</span></div>
+          <div class="stat-label">Elite Coaches</div>
+        </div>
+
+        <div>
+          <div class="stat-val">24/7</div>
+          <div class="stat-label">Always Open</div>
+        </div>
+
+        <div>
+          <div class="stat-val">6<span>+</span></div>
+          <div class="stat-label">Locations</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop" alt="Gym Athlete">
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">STRENGTH TRAINING</span>
+      <span class="marquee-item">HIIT CLASSES</span>
+      <span class="marquee-item">PERSONAL COACHING</span>
+      <span class="marquee-item">POWERLIFTING</span>
+      <span class="marquee-item">YOGA & RECOVERY</span>
+      <span class="marquee-item">BOXING & MMA</span>
+    </div>
+  </div>
+
+  <section id="programs">
+    <div class="section-label">Our Programs</div>
+    <h2 class="section-heading">TRAIN WITH <em>PURPOSE</em></h2>
+
+    <div class="programs-grid">
+
+      <div class="program-card">
+        <div class="program-num">01</div>
+        <h3 class="program-name">STRENGTH</h3>
+        <p class="program-desc">
+          Progressive overload programming built around compound lifts.
+          Develop raw power and real-world strength.
+        </p>
+        <a href="#" class="program-link">View Program</a>
+      </div>
+
+      <div class="program-card">
+        <div class="program-num">02</div>
+        <h3 class="program-name">HIIT FORGE</h3>
+        <p class="program-desc">
+          High-intensity interval sessions designed to torch fat and build endurance.
+        </p>
+        <a href="#" class="program-link">View Program</a>
+      </div>
+
+      <div class="program-card">
+        <div class="program-num">03</div>
+        <h3 class="program-name">ELITE COACHING</h3>
+        <p class="program-desc">
+          1-on-1 sessions with certified coaches specialized in your goals.
+        </p>
+        <a href="#" class="program-link">View Program</a>
+      </div>
+
+      <div class="program-card">
+        <div class="program-num">04</div>
+        <h3 class="program-name">BOXING & MMA</h3>
+        <p class="program-desc">
+          Full-contact fitness that builds coordination, power, and discipline.
+        </p>
+        <a href="#" class="program-link">View Program</a>
+      </div>
+
+      <div class="program-card">
+        <div class="program-num">05</div>
+        <h3 class="program-name">RECOVERY</h3>
+        <p class="program-desc">
+          Active recovery, mobility work, and contrast therapy sessions.
+        </p>
+        <a href="#" class="program-link">View Program</a>
+      </div>
+
+      <div class="program-card">
+        <div class="program-num">06</div>
+        <h3 class="program-name">NUTRITION</h3>
+        <p class="program-desc">
+          Customised macro plans and weekly check-ins with nutritionists.
+        </p>
+        <a href="#" class="program-link">View Program</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="section-label">Inside Forge</div>
+    <h2 class="section-heading">TRAIN HARD. <em>LOOK STRONG.</em></h2>
+
+    <div class="gallery-grid">
+
+      <div class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop" alt="Weight Training">
+        <div class="gallery-overlay">
+          <h3>STRENGTH ZONE</h3>
+          <p>Premium lifting stations designed for serious athletes and progressive overload training.</p>
+        </div>
+      </div>
+
+      <div class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1200&auto=format&fit=crop" alt="HIIT Training">
+        <div class="gallery-overlay">
+          <h3>HIIT CLASSES</h3>
+          <p>High-energy conditioning sessions with explosive movements and endurance drills.</p>
+        </div>
+      </div>
+
+      <div class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" alt="Gym Workout">
+        <div class="gallery-overlay">
+          <h3>ELITE FITNESS</h3>
+          <p>Train with advanced equipment, elite coaching, and a motivating atmosphere.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-inner">
+
+      <div class="about-visual">
+        <div class="about-badge">
+          <div class="about-badge-num">12</div>
+          <div>Years Forging Champions</div>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-heading">NOT JUST A GYM. <em>A MOVEMENT.</em></h2>
+
+        <p>
+          Founded in 2012 by competitive athletes who were tired of mediocre fitness facilities,
+          Forge was built from the floor up to be different.
+        </p>
+
+        <div class="about-perks">
+          <div class="perk"><span class="perk-dot"></span> Competition-grade equipment</div>
+          <div class="perk"><span class="perk-dot"></span> Certified elite coaches</div>
+          <div class="perk"><span class="perk-dot"></span> Recovery & physiotherapy centre</div>
+          <div class="perk"><span class="perk-dot"></span> Member progress tracking</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="section-label">Membership Plans</div>
+    <h2 class="section-heading">SIMPLE, HONEST <em>PRICING</em></h2>
+
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-amount">$39</div>
+
+        <ul class="price-features">
+          <li>Gym floor access</li>
+          <li>2 group classes / week</li>
+          <li>Locker room access</li>
+        </ul>
+
+        <a href="#" class="btn-plan">Get Started</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-tier">Forge Pro</div>
+        <div class="price-amount">$79</div>
+
+        <ul class="price-features">
+          <li>24/7 full access</li>
+          <li>Unlimited classes</li>
+          <li>2 coaching sessions / month</li>
+        </ul>
+
+        <a href="#" class="btn-plan">Join Forge Pro</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">Elite</div>
+        <div class="price-amount">$149</div>
+
+        <ul class="price-features">
+          <li>Everything in Pro</li>
+          <li>Weekly coaching</li>
+          <li>Custom nutrition plan</li>
+        </ul>
+
+        <a href="#" class="btn-plan">Go Elite</a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <div>
+      <h2>READY TO START BUILDING?</h2>
+      <p>
+        Your first week is on us. Walk in, meet the coaches, and try any class.
+      </p>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Claim Free Week</a>
+      <a href="#" class="btn-ghost">Book a Tour</a>
+    </div>
+  </div>
+
+  <footer id="contact">
+    <div class="footer-inner">
+
+      <div>
+        <div class="footer-logo">FORGE<span>.</span></div>
+        <p class="footer-desc">
+          Built for the serious. Open to all. Six locations across the city,
+          one standard of excellence.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Programs</h4>
+        <ul>
+          <li><a href="#">Strength Training</a></li>
+          <li><a href="#">HIIT Forge</a></li>
+          <li><a href="#">Elite Coaching</a></li>
+          <li><a href="#">Recovery</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Locations</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">hello@forgegym.com</a></li>
+          <li><a href="#">+1 (555) 424-7700</a></li>
+          <li><a href="#">Find a Location</a></li>
+          <li><a href="#">Member Login</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2025 Forge Gym. All rights reserved.</div>
+      <div>Privacy Policy · Terms of Service</div>
+    </div>
+  </footer>
+
+</body>
+</html>
